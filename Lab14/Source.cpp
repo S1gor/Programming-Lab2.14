@@ -26,6 +26,7 @@ void push(Stack& s, int d)
 
 int pull(Stack& s)
 {
+	if (s.head == NULL) return 0;
 	int d = s.head->data;
 	Element* e = s.head;
 	s.head = s.head->next;
@@ -35,7 +36,9 @@ int pull(Stack& s)
 
 void printStack(Stack& s)
 {
-
+	for (Element* cur = s.head; cur != NULL; cur = cur->next)
+		printf("%d -> ", cur->data);
+	printf("\b\b\b	\n");
 }
 
 int main()
