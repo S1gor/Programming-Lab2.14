@@ -16,7 +16,7 @@ struct Stack
 	Element* head = NULL;
 };
 
-void push(Stack& s, int d)
+void stackPush(Stack& s, int d)
 {
 	Element* e = (Element*)malloc(sizeof(Element));
 	e->data = d;
@@ -24,7 +24,7 @@ void push(Stack& s, int d)
 	s.head = e;
 }
 
-int pull(Stack& s)
+int stackPull(Stack& s)
 {
 	if (s.head == NULL) return 0;
 	int d = s.head->data;
@@ -34,17 +34,54 @@ int pull(Stack& s)
 	return d;
 }
 
+void writeANumber(Stack* s)
+{
+	printf("Write a number:");
+	for (char symbol = getchar(); symbol != '\n'; symbol = getchar())
+		stackPush(*s, symbol - 48);
+}
+
 void printStack(Stack& s)
 {
-	for (Element* cur = s.head; cur != NULL; cur = cur->next)
-		printf("%d -> ", cur->data);
-	printf("\b\b\b	\n");
+	printf("\nStack:\n");
+	int i = 1;
+	for (Element* cur = s.head; cur != NULL; cur = cur->next, i++)
+		printf("%d -> %d\n", i, cur->data);
+
+	/*printf("\nReverse - ");	
+	for (int i = s->head; i >= 0; i--)
+		printf("%d", s->element[i]);
+	printf("\n");*/
+}
+
+/*void stackNumberMinAndMax(Stack* s)
+{
+	int min = 10, max = 0;
+	for (int i = s->head; i >= 0; i--)
+	{
+		if (s->element[i] > max)
+			max = s->element[i];
+		if (s->element[i] < min)
+			min = s->element[i];
+	}
+
+	printf("Min - %d\nMax - %d\n", min, max);
+}*/
+
+void stackDestroy(Stack* s)
+{
+	while (s->head != NULL)
+		stackPull(*s);
 }
 
 int main()
 {
+	Stack s;
+	writeANumber(&s);
 
+	printStack(s);
 
+	stackDestroy(&s);
 
 	return 0;
 }
