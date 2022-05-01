@@ -16,21 +16,21 @@ struct Stack
 	Element* head = NULL;
 };
 
-void stackPush(Stack& s, int d)
+void pushStack(Stack& s, int d)
 {
-	Element* e = (Element*)malloc(sizeof(Element));
-	e->data = d;
-	e->next = s.head;
-	s.head = e;
+	Element* tmp = (Element*)malloc(sizeof(Element));
+	tmp->data = d;
+	tmp->next = s.head;
+	s.head = tmp;
 }
 
-int stackPull(Stack& s)
+int pullStack(Stack* s)
 {
-	if (s.head == NULL) return 0;
-	int d = s.head->data;
-	Element* e = s.head;
-	s.head = s.head->next;
-	free(e);
+	if (s->head == NULL) return 0;
+	int d = s->head->data;
+	Element* tmp = s->head;
+	s->head = s->head->next;
+	free(tmp);
 	return d;
 }
 
@@ -38,40 +38,53 @@ void writeANumber(Stack* s)
 {
 	printf("Write a number:");
 	for (char symbol = getchar(); symbol != '\n'; symbol = getchar())
-		stackPush(*s, symbol - 48);
+		pushStack(*s, symbol - 48);
 }
 
-void printStack(Stack& s)
+void printStack(Stack* s)
 {
 	printf("\nStack:\n");
 	int i = 1;
-	for (Element* cur = s.head; cur != NULL; cur = cur->next, i++)
+	for (Element* cur = s->head; cur != NULL; cur = cur->next, i++)
 		printf("%d -> %d\n", i, cur->data);
 
-	/*printf("\nReverse - ");	
-	for (int i = s->head; i >= 0; i--)
-		printf("%d", s->element[i]);
-	printf("\n");*/
 }
 
-/*void stackNumberMinAndMax(Stack* s)
+int reverseNumber(Stack* s)
+{
+	int len = 0, number = 0, st = 1;
+	for (Element* cur = s->head; cur != NULL; cur = cur->next)
+	{
+		len++;
+		st *= 10;
+	}
+	st /= 10;
+	for (int i = 0; i < len; i++)
+	{
+		number += pullStack(s) * st;
+		st /= 10;
+	}
+	return number;
+}
+
+void stackNumberMinAndMax(Stack* s)
 {
 	int min = 10, max = 0;
-	for (int i = s->head; i >= 0; i--)
+	for (Element* cur = s->head; cur != NULL; cur = cur->next)
 	{
-		if (s->element[i] > max)
-			max = s->element[i];
-		if (s->element[i] < min)
-			min = s->element[i];
+		if (cur->data > max)
+			max = cur->data;
+		if (cur->data < min)
+			min = cur->data;
 	}
 
-	printf("Min - %d\nMax - %d\n", min, max);
-}*/
+	printf("\nMin - %d\nMax - %d\n", min, max);
+}
 
 void stackDestroy(Stack* s)
 {
 	while (s->head != NULL)
-		stackPull(*s);
+		pullStack(s);
 }
 
 int main()
@@ -79,7 +92,10 @@ int main()
 	Stack s;
 	writeANumber(&s);
 
-	printStack(s);
+	printStack(&s);
+	stackNumberMinAndMax(&s);
+	int reverse = reverseNumber(&s);
+	printf("\nReverse:\n%d\n", reverse);
 
 	stackDestroy(&s);
 
