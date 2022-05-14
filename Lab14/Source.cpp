@@ -47,7 +47,6 @@ void printStack(Stack* s)
 	int i = 1;
 	for (Element* cur = s->head; cur != NULL; cur = cur->next, i++)
 		printf("%d -> %d\n", i, cur->data);
-
 }
 
 int reverseNumber(Stack* s)
