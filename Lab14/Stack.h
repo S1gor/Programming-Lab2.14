@@ -1,17 +1,15 @@
 #ifndef _STACK_H_
 #define _STACK_H_
 
-#include<iostream>
-
 struct Element
 {
 	int data;
-	Element* next = NULL;
+	Element* next = 0;
 };
 
 struct Stack
 {
-	Element* head = NULL;
+	Element* head = 0;
 };
 
 void pushStack(Stack& s, int d);
