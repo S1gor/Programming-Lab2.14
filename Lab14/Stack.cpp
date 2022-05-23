@@ -23,7 +23,7 @@ void writeANumber(Stack* s)
 {
 	printf("Write a number:");
 	for (char symbol = getchar(); symbol != '\n'; symbol = getchar())
-		pushStack(*s, symbol - 48);
+		pushStack(*s, symbol - '0');
 }
 
 void printStack(Stack* s)
